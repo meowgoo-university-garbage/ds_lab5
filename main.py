@@ -85,4 +85,40 @@ def main():
 
     plt.show()
 
+
+
+
+
+
+
+
+    img = cv2.imread("ralsei.png")
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    pixels = img.reshape((-1, 3))
+    pixels = np.float32(pixels)
+
+
+    k = 5
+    compactness, labels, centers = cv2.kmeans(pixels, k, None, (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.2), 10, cv2.KMEANS_PP_CENTERS)
+    labels = labels.flatten()
+
+    centers = np.uint8(centers)
+
+
+    clusterized = centers[labels].reshape(img.shape)
+
+    plt.figure(figsize=(10, 5))
+
+    plt.subplot(1, 2, 1)
+    plt.title("original")
+    plt.imshow(img)
+    plt.axis("off")
+
+    plt.subplot(1, 2, 2)
+    plt.title(f"clusterized")
+    plt.imshow(clusterized)
+    plt.axis("off")
+
+    plt.show()
+
 main()
